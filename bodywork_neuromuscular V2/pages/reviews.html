@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="max-age=31536000" http-equiv="Cache-Control"/>
+    
+    <!-- Critical CSS preloads -->
+    <link rel="preload" href="../styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../styles.css"></noscript>
+    
+    <!-- Preload hero image for immediate loading -->
+    <link rel="preload" href="../assets/IMG_0431.webp" as="image">
+    
+    <!-- Font preloads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Loading state styles -->
+    <style>
+        /* Critical loading styles */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 50%, #e8e8e8 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        .page-loader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+            color: #333;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e5e5e5;
+            border-top: 3px solid #9e2a2b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Prevent initial flash */
+        body {
+            opacity: 1;
+            transition: opacity 0.3s ease-in;
+        }
+        
+        body.loaded {
+            opacity: 1;
+        }
+        
+html {
+    scroll-behavior: smooth;
+    font-size: 16px
+    }
+body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column
+    }
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-m);
+    color: var(--color-text)
+    }
+h1 {
+    font-size: 2.5rem
+    }
+h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: var(--spacing-xl)
+    }
+h3 {
+    font-size: 1.5rem
+    }
+p {
+    margin-bottom: var(--spacing-m)
+    }
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: var(--transition-fast)
+    }
+a:hover {
+    color: var(--color-primary)
+    }
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: 8px;
+    z-index: 1001;
+    transition: top 0.3s
+    }
+.skip-link:focus {
+    top: 0
+    }
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-l)
+    }
+.btn {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--border-radius-m);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    text-align: center;
+    border: 0;
+    box-shadow: var(--shadow-button)
+    }
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white)
+    }
+.btn-primary:hover {
+    background-color: #8a2425;
+    color: var(--color-white)
+    }
+.btn-secondary {
+    background-color: var(--color-accent);
+    color: var(--color-white)
+    }
+.btn-secondary:hover {
+    background-color: #243c60;
+    color: var(--color-white)
+    }
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem
+    }
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: var(--spacing-m) 0
+    }
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+    }
+.logo img {
+    height: 50px;
+    width: auto
+    }
+.main-nav {
+    display: flex
+    }
+.nav-list {
+    display: flex;
+    gap: var(--spacing-xl)
+    }
+.nav-list a {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-text);
+    position: relative
+    }
+.nav-list a:hover, .nav-list a.active {
+    color: var(--color-primary)
+    }
+.nav-list a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: var(--transition-fast)
+    }
+.nav-list a:hover::after, .nav-list a.active::after {
+    width: 100%
+    }
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer
+    }
+.bar {
+    height: 3px;
+    width: 100%;
+    background-color: var(--color-text);
+    border-radius: 10px;
+    transition: var(--transition-fast)
+    }
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background-color: var(--color-white);
+    z-index: 999;
+    padding: var(--spacing-l);
+    overflow-y: auto
+    }
+.mobile-nav.active {
+    display: block
+    }
+.mobile-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-l)
+    }
+.mobile-nav-list a {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--color-text);
+    display: block;
+    padding: var(--spacing-m) 0;
+    border-bottom: 1px solid var(--color-border)
+    }
+.mobile-nav-list a:hover, .mobile-nav-list a.active {
+    color: var(--color-primary)
+    }
+.page-banner {
+    background-color: var(--color-tertiary);
+    padding: 120px 0 var(--spacing-xxl);
+    text-align: center
+    }
+.page-banner h1 {
+    margin-bottom: 0
+    }
+.hero {
+    background-image: url(../assets/IMG_0431.webp);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-white);
+    position: relative;
+    margin-top: 80px
+    }
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5)
+    }
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: var(--spacing-xl)
+    }
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-m);
+    color: var(--color-white)
+    }
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xl)
+    }
+.hero-cta {
+    display: flex;
+    gap: var(--spacing-m);
+    justify-content: center
+    }
+.course-card {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-l);
+    transition: var(--transition-medium);
+    display: flex;
+    flex-direction: column
+    }
+.course-card:hover {
+    transform: translatey(-3px)
+    }
+.course-header {
+    margin-bottom: var(--spacing-m)
+    }
+.course-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+    margin-bottom: var(--spacing-m)
+    }
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s)
+    }
+.detail-item i {
+    color: var(--color-primary);
+    width: 20px
+    }
+.course-description {
+    margin-bottom: var(--spacing-l)
+    }
+.course-card .btn {
+    margin-top: auto
+    }
+.courses-cta {
+    text-align: center;
+    margin-top: var(--spacing-xl)
+    }
+.team, .team-preview {
+    background-color: var(--color-tertiary);
+    padding: var(--spacing-xxxl) 0
+    }
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-xl)
+    }
+.team-card {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-l);
+    text-align: center;
+    transition: var(--transition-medium)
+    }
+.team-card:hover {
+    transform: translatey(-3px)
+    }
+.team-img-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto var(--spacing-m);
+    border-radius: 50%;
+    overflow: hidden
+    }
+.team-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+    }
+.team-title {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-m)
+    }
+.team-specialties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-s);
+    justify-content: center;
+    margin-bottom: var(--spacing-m)
+    }
+.specialty-tag {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.875rem
+    }
+.team-bio {
+    text-align: left;
+    margin-bottom: var(--spacing-m)
+    }
+.team-bio-short {
+    text-align: center;
+    margin-bottom: var(--spacing-m);
+    height: 4.8em;
+    overflow: hidden
+    }
+.team-cta {
+    text-align: center;
+    margin-top: var(--spacing-xl)
+    }
+.testimonials, .testimonials-preview {
+    padding: var(--spacing-xxxl) 0
+    }
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl)
+    }
+.testimonial-card {
+    background-color: var(--color-tertiary);
+    border-left: 4px solid var(--color-secondary);
+    border-radius: var(--border-radius-m);
+    padding: var(--spacing-l)
+    }
+.quote p {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-m)
+    }
+.testimonial-author {
+    text-align: right;
+    font-weight: 600
+    }
+.testimonials-cta {
+    text-align: center;
+    margin-top: var(--spacing-xl)
+    }
+.enrollment, .enrollment-preview {
+    background-color: var(--color-tertiary);
+    padding: var(--spacing-xxxl) 0
+    }
+.enrollment-steps {
+    max-width: 800px;
+    margin: 0 auto
+    }
+.step {
+    display: flex;
+    gap: var(--spacing-l);
+    margin-bottom: var(--spacing-xl);
+    position: relative
+    }
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50px;
+    left: 25px;
+    height: calc(100% + var(--spacing-xl));
+    width: 2px;
+    background-color: var(--color-secondary)
+    }
+.step-number {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    z-index: 1
+    }
+.step-content {
+    flex-grow: 1
+    }
+.step-content h3 {
+    margin-bottom: var(--spacing-s)
+    }
+.payment-options {
+    display: flex;
+    gap: var(--spacing-m);
+    margin-top: var(--spacing-m)
+    }
+.enrollment-cta {
+    text-align: center;
+    margin-top: var(--spacing-xl)
+    }
+.contact {
+    padding: var(--spacing-xxxl) 0
+    }
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl)
+    }
+.contact-info h3 {
+    margin-bottom: var(--spacing-m)
+    }
+.contact-details {
+    margin: var(--spacing-l) 0
+    }
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    margin-bottom: var(--spacing-m)
+    }
+.contact-item i {
+    color: var(--color-primary);
+    width: 20px
+    }
+.contact-image {
+    margin-top: var(--spacing-xl);
+    border-radius: var(--border-radius-l);
+    overflow: hidden
+    }
+.contact-img {
+    width: 100%;
+    height: auto;
+    display: block
+    }
+.contact-form {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-l)
+    }
+.form-group {
+    margin-bottom: var(--spacing-m)
+    }
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-s);
+    color: var(--color-text-secondary)
+    }
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-s);
+    font-family: var(--font-body);
+    font-size: 1rem
+    }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: 0;
+    border-color: var(--color-accent)
+    }
+.contact-preview {
+    background-color: var(--color-tertiary);
+    padding: var(--spacing-xxxl) 0
+    }
+.contact-preview-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto
+    }
+.contact-info-preview {
+    margin-bottom: var(--spacing-xl)
+    }
+.contact-cta {
+    margin-top: var(--spacing-m)
+    }
+.about-content {
+    padding: var(--spacing-xxxl) 0
+    }
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center
+    }
+.about-text h2 {
+    text-align: left
+    }
+.feature-list {
+    margin: var(--spacing-l) 0
+    }
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-m);
+    margin-bottom: var(--spacing-m)
+    }
+.feature-list i {
+    color: var(--color-accent-2)
+    }
+.about-image {
+    border-radius: var(--border-radius-l);
+    overflow: hidden
+    }
+.philosophy-section {
+    padding: var(--spacing-xxxl) 0
+    }
+.philosophy-content {
+    max-width: 1000px;
+    margin: 0 auto
+    }
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl)
+    }
+.philosophy-item {
+    text-align: center;
+    padding: var(--spacing-l);
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--shadow-card)
+    }
+.philosophy-icon {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-m)
+    }
+.cta-section {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    padding: var(--spacing-xxl) 0;
+    text-align: center
+    }
+.cta-section h2 {
+    color: var(--color-white)
+    }
+.cta-section p {
+    margin-bottom: var(--spacing-l);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto
+    }
+.cta-section .btn-primary {
+    background-color: var(--color-secondary);
+    color: var(--color-text)
+    }
+.cta-section .btn-primary:hover {
+    background-color: #e0b346
+    }
+.leave-review {
+    padding: var(--spacing-xxxl) 0;
+    background-color: var(--color-tertiary)
+    }
+.section-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto var(--spacing-xl)
+    }
+.review-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-l)
+    }
+.rating-select {
+    display: flex;
+    align-items: center
+    }
+.stars {
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+    color: #ccc
+    }
+.star {
+    cursor: pointer;
+    transition: var(--transition-fast)
+    }
+.star:hover, .star.active {
+    color: var(--color-secondary)
+    }
+.video-testimonials {
+    padding: var(--spacing-xxxl) 0
+    }
+.video-placeholder {
+    max-width: 800px;
+    margin: 0 auto
+    }
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background-color: #f0f0f0;
+    border-radius: var(--border-radius-l);
+    overflow: hidden
+    }
+.video-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--spacing-l)
+    }
+.video-message i {
+    font-size: 3rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-m)
+    }
+.faq-section {
+    padding: var(--spacing-xxxl) 0
+    }
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto
+    }
+.faq-item {
+    margin-bottom: var(--spacing-m);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-m);
+    overflow: hidden
+    }
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-m);
+    background-color: var(--color-white);
+    cursor: pointer
+    }
+.faq-question h3 {
+    margin-bottom: 0;
+    font-size: 1.2rem
+    }
+.faq-toggle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: var(--transition-fast)
+    }
+.faq-item.active .faq-toggle {
+    transform: rotate(45deg)
+    }
+.faq-answer {
+    padding: 0 var(--spacing-m);
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--transition-medium)
+    }
+.faq-item.active .faq-answer {
+    padding: var(--spacing-m);
+    max-height: 500px
+    }
+.location-section {
+    padding: var(--spacing-xxxl) 0;
+    background-color: var(--color-tertiary)
+    }
+.location-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl)
+    }
+.map-placeholder {
+    width: 100%;
+    height: 400px;
+    background-color: #f0f0f0;
+    border-radius: var(--border-radius-l);
+    display: flex;
+    justify-content: center;
+    align-items: center
+    }
+.map-message {
+    text-align: center;
+    padding: var(--spacing-l)
+    }
+.map-message i {
+    font-size: 3rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-m)
+    }
+.location-info h3 {
+    margin-top: var(--spacing-l);
+    margin-bottom: var(--spacing-s)
+    }
+address {
+    font-style: normal;
+    margin-bottom: var(--spacing-l)
+    }
+.newsletter-input {
+    display: flex;
+    gap: var(--spacing-s)
+    }
+.newsletter-input input {
+    flex-grow: 1
+    }
+.calendar-section {
+    padding: var(--spacing-xxxl) 0
+    }
+.calendar-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-l);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-l)
+    }
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-l)
+    }
+.calendar-nav {
+    background: 0;
+    border: 1px solid var(--color-border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-fast)
+    }
+.calendar-nav:hover {
+    background-color: var(--color-tertiary)
+    }
+.weekday-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: var(--spacing-m)
+    }
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--spacing-s)
+    }
+.calendar-day {
+    aspect-ratio: 1;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-s);
+    padding: var(--spacing-s);
+    display: flex;
+    flex-direction: column
+    }
+.date-number {
+    font-weight: 600;
+    margin-bottom: var(--spacing-s)
+    }
+.event-indicator {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+    }
+.has-event {
+    cursor: pointer;
+    border-color: var(--color-secondary)
+    }
+.has-event:hover {
+    background-color: var(--color-tertiary)
+    }
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-l)
+    }
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000
+    }
+.modal-content {
+    background-color: white;
+    border-radius: var(--border-radius-l);
+    padding: var(--spacing-xl);
+    max-width: 500px;
+    width: 90%;
+    position: relative
+    }
+.footer {
+    background-color: var(--color-text);
+    color: var(--color-white);
+    padding: var(--spacing-xxl) 0 var(--spacing-l);
+    margin-top: auto
+    }
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl)
+    }
+.footer-logo {
+    grid-column: span 2;
+    text-align: center;
+    margin-bottom: var(--spacing-l)
+    }
+.footer-logo img {
+    height: 60px;
+    width: auto
+    }
+.footer-links ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s)
+    }
+.footer-links a {
+    color: var(--color-white)
+    }
+.footer-links a:hover {
+    color: var(--color-secondary)
+    }
+.footer-contact p {
+    margin-bottom: var(--spacing-s)
+    }
+.footer-bottom {
+    text-align: center;
+    padding-top: var(--spacing-l);
+    border-top: 1px solid rgba(255, 255, 255, 0.1)
+    }
+@media (max-width: 1023px) {
+    html {
+        font-size: 15px
+        }
+    h1 {
+        font-size: 2.2rem
+        }
+    h2 {
+        font-size: 1.8rem
+        }
+    .hero h1 {
+        font-size: 3rem
+        }
+    .courses-grid, .team-grid, .testimonials-grid, .philosophy-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+        }
+    .contact-grid, .about-grid, .location-container {
+        grid-template-columns: 1fr
+        }
+    .footer-content {
+        grid-template-columns: 1fr 1fr
+        }
+    .footer-logo {
+        grid-column: span 2;
+        text-align: center;
+        margin-bottom: var(--spacing-l)
+        }
+    .calendar-day {
+        font-size: 0.9rem
+        }
+    .event-indicator {
+        font-size: 0.7rem
+        }
+    }
+@media (max-width: 767px) {
+    html {
+        font-size: 14px
+        }
+    h1 {
+        font-size: 1.8rem
+        }
+    h2 {
+        font-size: 1.5rem
+        }
+    .hero h1 {
+        font-size: 2.5rem
+        }
+    .hero-subtitle {
+        font-size: 1.2rem
+        }
+    .hero-cta {
+        flex-direction: column
+        }
+    .main-nav {
+        display: none
+        }
+    .mobile-menu-toggle {
+        display: flex
+        }
+    .courses-grid, .team-grid, .testimonials-grid, .philosophy-grid {
+        grid-template-columns: 1fr
+        }
+    .step {
+        flex-direction: column;
+        text-align: center
+        }
+    .step-number {
+        margin: 0 auto var(--spacing-m)
+        }
+    .step:not(:last-child)::after {
+        left: 50%;
+        top: 50px;
+        height: 30px;
+        width: 2px;
+        transform: translatex(-50%)
+        }
+    .payment-options {
+        flex-direction: column
+        }
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center
+        }
+    .footer-logo {
+        grid-column: span 1
+        }
+    .footer-links ul {
+        align-items: center
+        }
+    .newsletter-input {
+        flex-direction: column
+        }
+    .weekday-header, .days-grid {
+        font-size: 0.8rem
+        }
+    .calendar-day {
+        padding: var(--spacing-xs)
+        }
+    .event-indicator {
+        font-size: 0.6rem;
+        padding: 1px 2px
+        }
+    }
+.mobile-menu-toggle.active .bar:nth-child(1) {
+    transform: translatey(9px) rotate(45deg)
+    }
+.mobile-menu-toggle.active .bar:nth-child(2) {
+    opacity: 0
+    }
+.mobile-menu-toggle.active .bar:nth-child(3) {
+    transform: translatey(-9px) rotate(-45deg)
+    }
+button:focus, a:focus, input:focus, textarea:focus, select:focus {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px
+    }
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--spacing-s)
+    }
+@media print {
+    .header, .footer, .cta-section, .hero {
+        display: none
+        }
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+        color: #000;
+        background: #fff
+        }
+    a {
+        color: #000;
+        text-decoration: underline
+        }
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+        margin: 0
+        }
+    h1, h2, h3 {
+        page-break-after: avoid
+        }
+    img {
+        max-width: 100% !important
+        }
+    p, h2, h3 {
+        orphans: 3;
+        widows: 3
+        }
+    }</style><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Reviews - Bodywork Neuromuscular</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="preload"/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" media="print" onload="this.media='all'" rel="stylesheet"/><link as="style" href="../styles.css" rel="preload"/><link href="../styles.css" media="print" onload="this.media='all'" rel="stylesheet"/><script crossorigin="anonymous" defer="" src="https://kit.fontawesome.com/a076d05399.js"></script><meta content="#9E2A2B" name="theme-color"/>
+    
+    <title>Reviews - Bodywork Neuromuscular</title>
+</head>
+
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+<div class="scroll-progress"></div>
+<a class="skip-link" href="#main-content">Skip to main content</a><header class="header" role="banner"><div class="container" id="main-content"><div class="header-content"><div class="logo"><a href="../index.html"><img alt="Bodywork Neuromuscular Icon" loading="lazy" src="../assets/icon.webp" style="height:50px;width:auto;"/></a></div><nav class="main-nav" role="navigation"><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="courses.html">Courses</a></li><li><a href="team.html">Our Team</a></li><li><a class="active" href="reviews.html">Reviews</a></li><li><a href="contact.html">Contact</a></li></ul></nav><div class="mobile-menu-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div></div></div></header><section aria-labelledby="page-banner-heading" class="page-banner" role="region"><div class="container"><h1 id="page-banner-heading">Student Reviews</h1></div></section><section aria-label="Testimonials" class="testimonials animate-on-scroll" role="region"><div class="container"><h2>What Our Students Say</h2><div class="testimonials-grid"><div class="testimonial-card animate-child"><div class="quote"><p>"Instructors and assistants were incredible-every one! Kind, knew their stuff right where we were in the routine. Supportive."</p></div><div class="testimonial-author"><p>Vancouver 2024 Course Participant</p></div></div><div class="testimonial-card animate-child"><div class="quote"><p>"I would recommend this course because of the great instructors. They have great attitudes, they're fun, patient and very knowledgeable."</p></div><div class="testimonial-author"><p>Vancouver 2024 Course Participant</p></div></div><div class="testimonial-card animate-child"><div class="quote"><p>"The hands-on approach made all the difference. I was able to immediately apply what I learned in my practice the very next day."</p></div><div class="testimonial-author"><p>Thai Massage Course Graduate</p></div></div><div class="testimonial-card animate-child"><div class="quote"><p>"Chad's expertise in sports massage techniques has completely transformed how I work with my athletic clients. The course was worth every penny."</p></div><div class="testimonial-author"><p>Sports Massage Workshop Attendee</p></div></div><div class="testimonial-card animate-child"><div class="quote"><p>"Learning from Jebediah was inspiring. His background as a former Army Ranger brings a unique perspective to bodywork that I hadn't considered before."</p></div><div class="testimonial-author"><p>Deep Tissue Course Participant</p></div></div><div class="testimonial-card animate-child"><div class="quote"><p>"The small class size allowed for personalized attention. I never felt lost or overlooked, which has been an issue in other CEU courses I've taken."</p></div><div class="testimonial-author"><p>Myofascial Release Workshop Attendee</p></div></div></div></div></section><section aria-labelledby="leave-review-heading" class="leave-review animate-on-scroll" role="region"><div class="container"><h2 id="leave-review-heading">Share Your Experience</h2><p class="section-intro">Have you taken a course with us? We'd love to hear about your experience!</p><div class="review-form-container"><form class="review-form" id="reviewForm" role="form"><div class="form-group"><label for="name" id="name-label">Name</label><input aria-labelledby="name-label" id="name" name="name" required="" type="text"/></div><div class="form-group"><label for="course" id="course-label">Course Attended</label><select aria-labelledby="course-label" id="course" name="course" required=""><option value="">Select a course</option><option value="muscle-energy">Muscle Energy Techniques</option><option value="thai-massage">Thai Massage Fundamentals</option><option value="deep-tissue">Deep Tissue &amp; Myofascial Release</option><option value="other">Other</option></select></div><div class="form-group"><label for="rating" id="rating-label">Rating</label><div class="rating-select"><div class="stars"><span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span></div><input aria-labelledby="rating-label" id="rating" name="rating" required="" type="hidden" value=""/></div></div><div class="form-group"><label for="review" id="review-label">Your Review</label><textarea aria-labelledby="review-label" id="review" name="review" required="" rows="5"></textarea></div><button class="btn btn-primary" type="submit">Submit Review</button></form></div></div></section><section aria-labelledby="video-testimonials-heading" class="video-testimonials animate-on-scroll" role="region"><div class="container"><h2 id="video-testimonials-heading">Video Testimonials</h2><p class="section-intro">Hear directly from our students about their experiences in our courses.</p><div class="video-placeholder"><div class="video-container"><div class="video-message"><i class="fas fa-video"></i><p>Video testimonials coming soon!</p><p>Check back for updates or subscribe to our newsletter.</p></div></div></div></div></section><section aria-labelledby="cta-section-heading" class="cta-section animate-on-scroll" role="region"><div class="container"><h2 id="cta-section-heading">Ready to Experience Our Courses?</h2><p>Join our community of satisfied students and take your massage therapy practice to the next level.</p><a class="btn btn-primary" href="courses.html">Explore Courses</a></div></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer-content"><div class="footer-logo"><img alt="Bodywork Neuromuscular Icon" class="footer-img" loading="lazy" src="../assets/icon.webp" style="height:60px;width:auto;"/></div><div class="footer-links"><ul><li><a href="../index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="courses.html">Courses</a></li><li><a href="team.html">Our Team</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-contact"><p>971-319-3332</p><p>bodyworkneuromuscular@gmail.com</p></div></div><div class="footer-bottom"><p>© 2025 Bodywork Neuromuscular. All rights reserved.</p></div></div></footer><script defer="" src="../scripts.js"></script></body></html>
