@@ -1,0 +1,2 @@
+{"level":"info","message":"Initializing SSL in production mode","service":"bodywork-neuromuscular","timestamp":"2025-06-18 12:03:37"}
+{"level":"info","message":"Server running in production mode with SSL (Greenlock will handle ports 80/443)","service":"bodywork-neuromuscular","timestamp":"2025-06-18 12:03:37"}

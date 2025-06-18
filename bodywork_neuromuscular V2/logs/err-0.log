@@ -1,0 +1,4 @@
+2025-06-18T12:03:37: Warning: `find({})` returned 0 sites.
+2025-06-18T12:03:37:          Does `@greenlock/manager` implement `find({})`?
+2025-06-18T12:03:37:          Did you add sites?
+2025-06-18T12:03:37:          npx greenlock add --subject example.com --altnames example.com

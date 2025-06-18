@@ -1,0 +1,13 @@
+2025-06-18T12:00:31: changing `configDir` from 'C:\Users\Joe\Desktop\bodywork_neuromuscular V2\greenlock.d' to './greenlock.d'
+2025-06-18T12:03:37: #224 Listening on 0.0.0.0:80 for ACME challenges, and redirecting to HTTPS
+2025-06-18T12:03:37: #224 Listening on 0.0.0.0:443 for secure traffic
+2025-06-18T13:37:52: [default] store.module: greenlock-store-fs
+2025-06-18T13:37:52: [default] challenges.http-01.module: acme-http-01-standalone
+2025-06-18T13:37:52: [default] renewOffset: -45d
+2025-06-18T13:37:52: [default] renewStagger: 3d
+2025-06-18T13:37:52: [default] accountKeyType: EC-P256
+2025-06-18T13:37:52: [default] serverKeyType: RSA-2048
+2025-06-18T13:37:52: 
+2025-06-18T13:37:52: [default] subscriberEmail: joecharno5@gmail.com
+2025-06-18T13:37:52: [default] agreeToTerms: (show notice on use)
+2025-06-18T13:37:52: 
